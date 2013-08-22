@@ -152,6 +152,7 @@ protected:
   bool p_pub_map_scanmatch_transform_;
   std::string p_tf_map_scanmatch_transform_frame_name_;
 
+  std::string p_map_topic_;
   std::string p_scan_topic_;
   std::string p_sys_msg_topic_;
 
