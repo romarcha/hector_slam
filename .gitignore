@@ -3,5 +3,6 @@ build/
 lib/
 msg_gen/
 srv_gen/
+*.user
 hector_mapping/src/hector_mapping/
 hector_nav_msgs/src/hector_nav_msgs/

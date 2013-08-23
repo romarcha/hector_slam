@@ -339,19 +339,9 @@ void HectorMappingRos::scanCallback(const sensor_msgs::LaserScan& scan)
   if (p_pub_map_odom_transform_)
   {
     tf::StampedTransform odom_to_base;
-
-    try
-    {
-      tf_.waitForTransform(p_odom_frame_, p_base_frame_, scan.header.stamp, ros::Duration(0.5));
-      tf_.lookupTransform(p_odom_frame_, p_base_frame_, scan.header.stamp, odom_to_base);
-    }
-    catch(tf::TransformException e)
-    {
-      ROS_ERROR("Transform failed during publishing of map_odom transform: %s",e.what());
-      odom_to_base.setIdentity();
-    }
+    odom_to_base.setIdentity();
     map_to_odom_ = tf::Transform(poseInfoContainer_.getTfTransform() * odom_to_base.inverse());
-    tfB_->sendTransform( tf::StampedTransform (map_to_odom_, scan.header.stamp, p_map_frame_, p_odom_frame_));
+    tfB_->sendTransform( tf::StampedTransform (map_to_odom_, scan.header.stamp, p_map_frame_, p_base_frame_));
   }
 
   if (p_pub_map_scanmatch_transform_){
