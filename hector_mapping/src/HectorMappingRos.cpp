@@ -326,6 +326,14 @@ void HectorMappingRos::scanCallback(const sensor_msgs::LaserScan& scan)
 
     tmp.header = poseInfoContainer_.getPoseWithCovarianceStamped().header;
     odometryPublisher_.publish(tmp);
+
+    //Publish odometry transform from odom to base link
+    tf::Transform odom_to_base_link;
+
+    //Fill tf tansform
+    tf::poseMsgToTF(tmp.pose.pose, odom_to_base_link);
+
+    tfB_->sendTransform( tf::StampedTransform(odom_to_base_link, scan.header.stamp, p_odom_frame_, p_base_frame_) );
   }
 
   if (p_pub_map_odom_transform_)
